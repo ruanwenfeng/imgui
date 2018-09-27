@@ -1,1 +1,2 @@
 add_subdirectory(win32_hello_world)
+add_subdirectory(xnamath)

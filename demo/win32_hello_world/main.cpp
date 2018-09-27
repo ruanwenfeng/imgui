@@ -180,8 +180,8 @@ int main(int, char**)
 		
 		RECT rect;
 		GetClientRect(hwnd, &rect);
-		float cxClient = rect.right - rect.left;  // 获得客户区宽度
-		float cyClient = rect.bottom - rect.top;  // 获得客户区高度
+		float cxClient = static_cast<float>(rect.right - rect.left);  // 获得客户区宽度
+		float cyClient = static_cast<float>(rect.bottom - rect.top);  // 获得客户区高度
 		ImGui::SetWindowSize("Hello, world!", { cxClient,cyClient });
 		ImGui::SetWindowPos("Hello, world!", { 0,0 });
 		
@@ -211,7 +211,8 @@ int main(int, char**)
 					ImGui::EndMenu();
 				}
 				if (ImGui::BeginMenu("Edit")) {
-					if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+					if (ImGui::MenuItem("Undo", "CTRL+Z")) {
+					}
 					if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
 					ImGui::Separator();
 					if (ImGui::MenuItem("Cut", "CTRL+X")) {}
@@ -221,6 +222,13 @@ int main(int, char**)
 				}
 				ImGui::EndMenuBar();
 			}
+			ImGuiIO& io = ImGui::GetIO();
+			ImTextureID my_tex_id = io.Fonts->TexID;
+			float my_tex_w = (float)io.Fonts->TexWidth;
+			float my_tex_h = (float)io.Fonts->TexHeight;
+			ImGui::ImageButton(my_tex_id, ImVec2(32, 32), ImVec2(0, 0), ImVec2(32.0f / my_tex_w, 32 / my_tex_h), 0, ImColor(0, 0, 0, 255));
+			ImGui::SameLine(0, 5);
+			ImGui::ImageButton(my_tex_id, ImVec2(32, 32), ImVec2(0, 0), ImVec2(32.0f / my_tex_w, 32 / my_tex_h), 0, ImColor(0, 0, 0, 255));
 
 			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
 			ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
@@ -237,15 +245,6 @@ int main(int, char**)
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::End();
 		}
-
-		//// 3. Show another simple window.
-		//if (show_another_window) {
-		//	ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		//	ImGui::Text("Hello from another window!");
-		//	if (ImGui::Button("Close Me"))
-		//		show_another_window = false;
-		//	ImGui::End();
-		//}
 
 		// Rendering
 		ImGui::Render();

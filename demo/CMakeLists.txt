@@ -1,2 +1,4 @@
 add_subdirectory(win32_hello_world)
 add_subdirectory(xnamath)
+add_subdirectory(d3d_hello_world)
+add_subdirectory(dxut)
